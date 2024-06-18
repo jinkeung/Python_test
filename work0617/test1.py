@@ -37,24 +37,46 @@ print(sound.func())
 '''
 #decorator 파이썬 데코레이터
     #구조 -함수가 함수 호출
-          인수 전달 - 변수명이 없는 변수
+          인수 전달- 가변변수
           *args : 리스트 정보 전달
           **kwargs : 딕셔너리 정보 전달
     1. 함수의 코드 유연성-기존 함수를 망가뜨리지 않고 새롭게 쓸 수 있다.
     2. 코드의 캡슐화
     3. 인수의 전달
+    
 '''
 
 def decorator(func):
-    def wrap():
-        print("Hello")
-        func()
-        print("World")
+    def wrap(*args, **kwargs):              #인수전달
+        for i in range(args[0]):
+            func(*args, **kwargs)
+        return func
+    return wrap
 
-def function():
-    print("Hello")
+@decorator
+def function(name):
+    print(name)
+
+function(3)
 
 
+'''
+def decorator(func):
+    def wrap(name):
+        func(name)
+        return func
+    return wrap
+
+@decorator              #decorator(function("NAME"))    이 형태를 안씀
+def function(name):
+    print(name)
+
+function("NAME")
+'''
+'''
+function=decorator(function)
+function("NAME")
+'''
 
 '''
 def wrap(*args):
