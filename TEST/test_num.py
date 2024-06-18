@@ -1,3 +1,5 @@
+import random
+
 import pytest   #pip install pytest
 
 """
@@ -12,14 +14,32 @@ import pytest   #pip install pytest
         - 실행은 터미널에서해야 모든 테스트 실행 가능
           pytest test_num.py 
 """
-
+'''
 def num():
     return 0.8
 
+def repeat(n):
+    def deco(func):
+        def wrap(*args, **kwargs):
+            for _ in range(n):              #i가 필요없고 반복만하면될때
+                func(*args, **kwargs)
+        return wrap
+    return deco
+'''
+'''
+a=10
+
+@repeat(10)                 # repeat에 10을 넣어버리고 그다음 def인 deco에 test_num이 들어감
 def test_num():
-    assert num()==0.7
+    global a
+    a-=1
+    assert num()<=a         #실패하는순간 더이상 반복 X
+'''
 
 
-def test_num2():
-    assert num()>=0.7
+#병렬 실행      => 범위내에 몇개 성공 몇개실행
 
+@pytest.mark.parametrize("key",range(1,10))
+
+def test_num(key):
+    assert key>=5
